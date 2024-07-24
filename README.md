@@ -1,4 +1,4 @@
-# CPF Value Object
+# CPF Doctrine Type
 
 This tiny package contains a custom mapping type for CPF value object.
 

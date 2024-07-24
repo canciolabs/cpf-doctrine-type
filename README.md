@@ -1,4 +1,4 @@
-# CPF Value Object
+# CPF Doctrine Type
 
 This tiny package contains a custom mapping type for CPF value object.
 
@@ -13,14 +13,18 @@ This tiny package contains a custom mapping type for CPF value object.
 
 ## How to use it
 
-First, register the custom mapping in your application by following one of these guides:
+First, copy the class name of the Cpf mapping type:
 
-Symfony Framework: https://symfony.com/doc/current/doctrine/dbal.html
-Doctrine: https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/cookbook/custom-mapping-types.html
+    'CancioLabs\Doctrine\Type\Cpf\CpfType'
 
-After that, use the 'cpf' mapping type inside your entity:
+Then, register it in your application by following one of these guides:
+
+- Symfony Framework: https://symfony.com/doc/current/doctrine/dbal.html
+- Doctrine: https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/cookbook/custom-mapping-types.html
+
+Finally, use the 'cpf' mapping type inside your entity:
 
     use CancioLabs\ValueObject\Cpf\Cpf;
 
     #[ORM\Column(type: 'cpf')]
-    private ?Cpf $cpf;
+    private ?Cpf $cpf = null;

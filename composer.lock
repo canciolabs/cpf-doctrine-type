@@ -4,8 +4,124 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0ae25ac774601eeb39881fd80eb7c69",
+    "content-hash": "bcbd3c4b18b8c28b8110b50ddf36675a",
     "packages": [
+        {
+            "name": "cancio-labs/cpf-validation-function",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/canciolabs/cpf-validation-function.git",
+                "reference": "87fd146fb61001a25363c283801ec2a7ffb459af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/canciolabs/cpf-validation-function/zipball/87fd146fb61001a25363c283801ec2a7ffb459af",
+                "reference": "87fd146fb61001a25363c283801ec2a7ffb459af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/assert_cpf.func.php",
+                    "src/is_valid_cpf.func.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nilo Soares",
+                    "email": "nilosoares@gmail.com"
+                },
+                {
+                    "name": "Cancio Labs",
+                    "email": "canciolabs@gmail.com"
+                },
+                {
+                    "name": "NSCPS Solutions",
+                    "email": "nscpssolutions@gmail.com"
+                }
+            ],
+            "description": "A function to validate a CPF (Brazilian ID)",
+            "homepage": "https://github.com/canciolabs/cpf-validation-function",
+            "keywords": [
+                "brasil",
+                "cpf",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/canciolabs/cpf-validation-function/issues",
+                "source": "https://github.com/canciolabs/cpf-validation-function/tree/1.0.0"
+            },
+            "time": "2024-06-30T17:10:53+00:00"
+        },
+        {
+            "name": "cancio-labs/cpf-value-object",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/canciolabs/cpf-value-object.git",
+                "reference": "fdcf1893bcc14a67e74f399d8a0a4992e4643c83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/canciolabs/cpf-value-object/zipball/fdcf1893bcc14a67e74f399d8a0a4992e4643c83",
+                "reference": "fdcf1893bcc14a67e74f399d8a0a4992e4643c83",
+                "shasum": ""
+            },
+            "require": {
+                "cancio-labs/cpf-validation-function": "^1.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CancioLabs\\ValueObject\\Cpf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nilo Soares",
+                    "email": "nilosoares@gmail.com"
+                },
+                {
+                    "name": "Cancio Labs",
+                    "email": "canciolabs@gmail.com"
+                },
+                {
+                    "name": "NSCPS Solutions",
+                    "email": "nscpssolutions@gmail.com"
+                }
+            ],
+            "description": "A class that represents a CPF (Brazilian ID)",
+            "homepage": "https://github.com/canciolabs/cpf-value-object",
+            "keywords": [
+                "Value Object",
+                "brasil",
+                "cpf"
+            ],
+            "support": {
+                "issues": "https://github.com/canciolabs/cpf-value-object/issues",
+                "source": "https://github.com/canciolabs/cpf-value-object/tree/1.0.0"
+            },
+            "time": "2024-06-30T17:18:31+00:00"
+        },
         {
             "name": "doctrine/cache",
             "version": "2.2.0",

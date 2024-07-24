@@ -1,0 +1,35 @@
+{
+    "name": "cancio-labs/cpf-doctrine-type",
+    "description": "A custom mapping type for CPF value object.",
+    "type": "library",
+    "keywords": ["doctrine", "type", "mapping type", "cpf"],
+    "homepage": "https://github.com/canciolabs/cpf-doctrine-type",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Nilo Soares",
+            "email": "nilosoares@gmail.com"
+        },
+        {
+            "name": "Cancio Labs",
+            "email": "canciolabs@gmail.com"
+        },
+        {
+            "name": "NSCPS Solutions",
+            "email": "nscpssolutions@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CancioLabs\\Doctrine\\Type\\Cpf\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CancioLabs\\Doctrine\\Type\\Cpf\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+    }
+}

@@ -55,6 +55,12 @@ final class CpfType extends Type
             throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
         }
 
-        return (string) $value;
+        $value = (string) $value;
+
+        if (strlen($value) !== self::LENGTH) {
+            throw new ConversionException(sprintf('CpfType expects an exactly %d-character value.', self::LENGTH));
+        }
+
+        return $value;
     }
 }

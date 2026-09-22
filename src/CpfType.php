@@ -1,39 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CancioLabs\Doctrine\Type\Cpf;
 
-use CancioLabs\ValueObject\Cpf\Cpf;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
+use Stringable;
 
-class CpfType extends Type
+/**
+ * Stores CPF numbers in a CHAR(11) database column.
+ */
+final class CpfType extends Type
 {
+    public const string NAME = 'cpf';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $column['length'] = 11;
-        $column['fixed'] = true;
-
-        return $platform->getStringTypeDeclarationSQL($column);
+        return $platform->getStringTypeDeclarationSQL([
+            'length' => 11,
+            'fixed' => true,
+        ]);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Cpf
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
             return null;
         }
 
-        return new Cpf($value);
+        if (!is_string($value) && !$value instanceof Stringable) {
+            throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
+        }
+
+        return (string) $value;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string
     {
-        return $value?->getRaw();
-    }
+        if ($value === null) {
+            return null;
+        }
 
-    public function getName(): string
-    {
-        return 'cpf';
-    }
+        if (!is_string($value) && !$value instanceof Stringable) {
+            throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
+        }
 
+        return (string) $value;
+    }
 }

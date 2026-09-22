@@ -18,14 +18,14 @@ final class CpfTypeTest extends TestCase
         $this->platform = new SQLitePlatform();
     }
 
-    public function testItConvertsAnElevenCharacterValue(): void
+    public function testItNormalizesDatabaseValuesAndFormatsPhpValues(): void
     {
         self::assertSame(
             '12345678901',
             $this->type->convertToDatabaseValue('12345678901', $this->platform),
         );
         self::assertSame(
-            '12345678901',
+            '123.456.789-01',
             $this->type->convertToPHPValue('12345678901', $this->platform),
         );
     }

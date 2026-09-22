@@ -36,11 +36,9 @@ final class CpfType extends Type
             throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
         }
 
-        $value = (string) $value;
+        $value = str_replace(['.', '-'], '', (string) $value);
 
-        if (strlen($value) !== self::LENGTH) {
-            throw new ConversionException(sprintf('CpfType expects an exactly %d-character value.', self::LENGTH));
-        }
+        $this->assertValidCpf($value);
 
         return $value;
     }
@@ -56,11 +54,15 @@ final class CpfType extends Type
         }
 
         $value = (string) $value;
-
-        if (strlen($value) !== self::LENGTH) {
-            throw new ConversionException(sprintf('CpfType expects an exactly %d-character value.', self::LENGTH));
-        }
+        $this->assertValidCpf($value);
 
         return $value;
+    }
+
+    private function assertValidCpf(string $value): void
+    {
+        if (preg_match(sprintf('/\\A[0-9]{%d}\\z/', self::LENGTH), $value) !== 1) {
+            throw new ConversionException(sprintf('CpfType expects exactly %d digits.', self::LENGTH));
+        }
     }
 }

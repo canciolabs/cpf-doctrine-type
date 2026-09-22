@@ -58,14 +58,14 @@ class Person
 }
 ```
 
-The database representation is a fixed-length `CHAR(11)` string. When writing
-a value, the type accepts `null`, a string, or a `Stringable` object, but the
-resulting string must contain exactly 11 characters. Values with any other
-length cause a Doctrine conversion exception.
+The database representation is a fixed-length `CHAR(11)` string containing 11
+digits. When writing a value, the type accepts `null`, a string, or a
+`Stringable` object. It removes periods and hyphens from formatted CPF input,
+then requires exactly 11 digits; all other values cause a Doctrine conversion
+exception.
 
-This package enforces storage length only. It does not verify that a value
-contains digits or that it has a valid CPF checksum. Validate those business
-rules in your application before persistence.
+This package does not verify the CPF checksum. Validate that business rule in
+your application before persistence.
 
 ## License
 

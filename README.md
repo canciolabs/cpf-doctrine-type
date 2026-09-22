@@ -69,6 +69,23 @@ representation.
 This package does not verify the CPF checksum. Validate that business rule in
 your application before persistence.
 
+## Testing
+
+Install development dependencies, then run the test suite:
+
+```bash
+composer install
+composer tests
+```
+
+Generate an HTML coverage report with Xdebug enabled:
+
+```bash
+composer coverage
+```
+
+The report is written to `coverage/`.
+
 ## License
 
 This project is licensed under the [GNU General Public License v3.0 or later](LICENSE).

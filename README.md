@@ -6,7 +6,8 @@
 A [Doctrine DBAL](https://www.doctrine-project.org/projects/doctrine-dbal.html)
 custom mapping type for storing Brazilian CPF values as fixed-length strings.
 
-The type stores values in a `CHAR(11)` column and exposes them as PHP strings.
+The type stores values as 11 digits in a `CHAR(11)` column and exposes them as
+formatted PHP strings, such as `999.999.999-99`.
 It does not depend on, create, or return a CPF value object.
 
 ## Requirements
@@ -62,7 +63,8 @@ The database representation is a fixed-length `CHAR(11)` string containing 11
 digits. When writing a value, the type accepts `null`, a string, or a
 `Stringable` object. It removes periods and hyphens from formatted CPF input,
 then requires exactly 11 digits; all other values cause a Doctrine conversion
-exception.
+exception. When reading a value, it returns the formatted `999.999.999-99`
+representation.
 
 This package does not verify the CPF checksum. Validate that business rule in
 your application before persistence.

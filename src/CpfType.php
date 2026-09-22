@@ -54,9 +54,16 @@ final class CpfType extends Type
         }
 
         $value = (string) $value;
+
         $this->assertValidCpf($value);
 
-        return $value;
+        return sprintf(
+            '%s.%s.%s-%s',
+            substr($value, 0, 3),
+            substr($value, 3, 3),
+            substr($value, 6, 3),
+            substr($value, 9, 2),
+        );
     }
 
     private function assertValidCpf(string $value): void

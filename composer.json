@@ -1,6 +1,6 @@
 {
     "name": "cancio-labs/cpf-doctrine-type",
-    "description": "A custom mapping type for Brazilian CPF (Cadastro de Pessoas Fisicas).",
+    "description": "A custom mapping type for Brazilian CPF (Cadastro de Pessoas Físicas).",
     "type": "library",
     "keywords": ["doctrine", "type", "mapping type", "brazil", "cpf"],
     "homepage": "https://github.com/canciolabs/cpf-doctrine-type",

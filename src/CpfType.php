@@ -16,10 +16,12 @@ final class CpfType extends Type
 {
     public const string NAME = 'cpf';
 
+    private const int LENGTH = 11;
+
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getStringTypeDeclarationSQL([
-            'length' => 11,
+            'length' => self::LENGTH,
             'fixed' => true,
         ]);
     }
@@ -34,7 +36,13 @@ final class CpfType extends Type
             throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
         }
 
-        return (string) $value;
+        $value = (string) $value;
+
+        if (strlen($value) !== self::LENGTH) {
+            throw new ConversionException(sprintf('CpfType expects an exactly %d-character value.', self::LENGTH));
+        }
+
+        return $value;
     }
 
     public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string

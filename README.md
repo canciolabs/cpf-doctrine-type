@@ -1,30 +1,96 @@
 # CPF Doctrine Type
 
-This tiny package contains a custom mapping type for CPF value object.
+[![PHP 8.5+](https://img.shields.io/badge/PHP-8.5%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL--3.0--or--later-blue.svg)](LICENSE)
+
+A [Doctrine DBAL](https://www.doctrine-project.org/projects/doctrine-dbal.html)
+custom mapping type for storing Brazilian CPF values as fixed-length strings.
+
+The type stores values as 11 digits in a `CHAR(11)` column and exposes them as
+formatted PHP strings, such as `999.999.999-99`.
+It does not depend on, create, or return a CPF value object.
 
 ## Requirements
 
-- PHP >= 7.4
-- Doctrine DBAL >= 3.0
+- PHP 8.5 or later
+- Doctrine DBAL 4.4 or later
 
 ## Installation
 
-    composer require cancio-labs/cpf-doctrine-type
+Install the package with Composer:
 
-## How to use it
+```bash
+composer require cancio-labs/cpf-doctrine-type
+```
 
-First, copy the class name of the Cpf mapping type:
+## Registering the type
 
-    'CancioLabs\Doctrine\Type\Cpf\CpfType'
+Register the type during application bootstrap, before Doctrine creates metadata
+or connections that use it:
 
-Then, register it in your application by following one of these guides:
+```php
+use CancioLabs\Doctrine\Type\Cpf\CpfType;
+use Doctrine\DBAL\Types\Type;
 
-- Symfony Framework: https://symfony.com/doc/current/doctrine/dbal.html
-- Doctrine: https://www.doctrine-project.org/projects/doctrine-orm/en/3.2/cookbook/custom-mapping-types.html
+Type::addType(CpfType::NAME, CpfType::class);
+```
 
-Finally, use the 'cpf' mapping type inside your entity:
+For Symfony applications, configure the type in `config/packages/doctrine.yaml`:
 
-    use CancioLabs\ValueObject\Cpf\Cpf;
+```yaml
+doctrine:
+    dbal:
+        types:
+            cpf: CancioLabs\Doctrine\Type\Cpf\CpfType
+```
 
-    #[ORM\Column(type: 'cpf')]
-    private ?Cpf $cpf = null;
+## Usage
+
+Map CPF properties as nullable strings:
+
+```php
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Person
+{
+    #[ORM\Column(type: 'cpf', nullable: true)]
+    private ?string $cpf = null;
+}
+```
+
+The database representation is a fixed-length `CHAR(11)` string containing 11
+digits. When writing a value, the type accepts `null`, a string, or a
+`Stringable` object. It removes periods and hyphens from formatted CPF input,
+then requires exactly 11 digits; all other values cause a Doctrine conversion
+exception. When reading a value, it returns the formatted `999.999.999-99`
+representation.
+
+This package does not verify the CPF checksum. Validate that business rule in
+your application before persistence.
+
+## Testing
+
+Install development dependencies, then run the test suite:
+
+```bash
+composer install
+composer tests
+```
+
+Generate an HTML coverage report with Xdebug enabled:
+
+```bash
+composer coverage
+```
+
+The report is written to `coverage/`.
+
+## License
+
+This project is licensed under the [GNU General Public License v3.0 or later](LICENSE).
+
+## Contributing
+
+Please use [GitHub Issues](https://github.com/canciolabs/cpf-doctrine-type/issues)
+to report bugs or propose enhancements, and submit changes through pull requests.

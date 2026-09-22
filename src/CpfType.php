@@ -1,39 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CancioLabs\Doctrine\Type\Cpf;
 
-use CancioLabs\ValueObject\Cpf\Cpf;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
+use Stringable;
 
-class CpfType extends Type
+/**
+ * Stores CPF numbers in a CHAR(11) database column.
+ */
+final class CpfType extends Type
 {
+    public const string NAME = 'cpf';
+
+    private const int LENGTH = 11;
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        $column['length'] = 11;
-        $column['fixed'] = true;
-
-        return $platform->getStringTypeDeclarationSQL($column);
+        return $platform->getStringTypeDeclarationSQL([
+            'length' => self::LENGTH,
+            'fixed' => true,
+        ]);
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Cpf
+    public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
     {
         if ($value === null) {
             return null;
         }
 
-        return new Cpf($value);
+        if (!is_string($value) && !$value instanceof Stringable) {
+            throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
+        }
+
+        $value = str_replace(['.', '-'], '', (string) $value);
+
+        $this->assertValidCpf($value);
+
+        return $value;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?string
     {
-        return $value?->getRaw();
+        if ($value === null) {
+            return null;
+        }
+
+        if (!is_string($value) && !$value instanceof Stringable) {
+            throw new ConversionException('CpfType expects a string, a Stringable value, or null.');
+        }
+
+        $value = (string) $value;
+
+        $this->assertValidCpf($value);
+
+        return sprintf(
+            '%s.%s.%s-%s',
+            substr($value, 0, 3),
+            substr($value, 3, 3),
+            substr($value, 6, 3),
+            substr($value, 9, 2),
+        );
     }
 
-    public function getName(): string
+    private function assertValidCpf(string $value): void
     {
-        return 'cpf';
+        if (preg_match(sprintf('/\\A[0-9]{%d}\\z/', self::LENGTH), $value) !== 1) {
+            throw new ConversionException(sprintf('CpfType expects exactly %d digits.', self::LENGTH));
+        }
     }
-
 }
